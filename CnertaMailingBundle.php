@@ -1,9 +1,9 @@
 <?php
 
-namespace Cnerta\OpenIdConnect\MailingBundle;
+namespace Cnerta\MailingBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class CnertaOpenIdConnectMailingBundle extends Bundle
+class CnertaMailingBundle extends Bundle
 {
 }

@@ -1,13 +1,13 @@
 <?php
 
-namespace Cnerta\OpenIdConnect\MailingBundle\Mailing;
+namespace Cnerta\MailingBundle\MailingBundle\Mailing;
 
 use Symfony\Bridge\Monolog\Logger;
 use Twig_Environment;
 use Swift_Mailer;
-use Cnerta\OpenIdConnect\MailingBundle\Mailing\MailParameters;
+use Cnerta\MailingBundle\MailingBundle\Mailing\MailParameters;
 // TODO replace Account By an interface
-use Cnerta\OpenIdConnect\ModelBundle\Entity\Account;
+use Cnerta\MailingBundle\ModelBundle\Entity\Account;
 
 /**
  *
@@ -38,7 +38,7 @@ class MailingService
         $this->config = $config;
         
         //TODO add config resolver
-        $this->config['template'] = "CnertaOpenIdConnectMailingBundle";
+        $this->config['template'] = "CnertaMailingBundleMailingBundle";
         $this->config['from'] = array("email" => "no-reply@exemple.com", "name" => "OIC Provider");
         
         $this->templating = $templating;

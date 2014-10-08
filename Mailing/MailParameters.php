@@ -1,6 +1,6 @@
 <?php
 
-namespace Cnerta\OpenIdConnect\MailingBundle\Mailing;
+namespace Cnerta\MailingBundle\MailingBundle\Mailing;
 
 /**
  * @author Valérian Girard <valerian.girard@eduter.fr>
@@ -25,7 +25,7 @@ class MailParameters
     /**
      * @param string $key
      * @param mixin $value
-     * @return Cnerta\OpenIdConnect\MailingBundle\Mailing\MailParameters
+     * @return Cnerta\MailingBundle\MailingBundle\Mailing\MailParameters
      */
     public function addObjectParameters($key, $value)
     {
@@ -35,7 +35,7 @@ class MailParameters
     
     /**
      * @param array $objectParameters
-     * @return Cnerta\OpenIdConnect\MailingBundle\Mailing\MailParameters
+     * @return Cnerta\MailingBundle\MailingBundle\Mailing\MailParameters
      */
     public function setObjectParameters(array $objectParameters)
     {
@@ -54,7 +54,7 @@ class MailParameters
     /**
      * @param string $key
      * @param mixin $value
-     * @return Cnerta\OpenIdConnect\MailingBundle\Mailing\MailParameters
+     * @return Cnerta\MailingBundle\MailingBundle\Mailing\MailParameters
      */
     public function addBodyParameters($key, $value)
     {
@@ -64,7 +64,7 @@ class MailParameters
     
     /**
      * @param array $bodyParameters
-     * @return Cnerta\OpenIdConnect\MailingBundle\Mailing\MailParameters
+     * @return Cnerta\MailingBundle\MailingBundle\Mailing\MailParameters
      */
     public function setBodyParameters(array $bodyParameters)
     {

@@ -41,7 +41,7 @@ Register the bundle in your `AppKernel` class.
     {
         $bundles = array(
             // ...
-            new Cnerta\CnertaMailingBundle\CnertaMailingBundle()
+            new Cnerta\MailingBundle\CnertaMailingBundle(),
         );
 
         // ...

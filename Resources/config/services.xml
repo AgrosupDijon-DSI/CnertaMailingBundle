@@ -6,7 +6,7 @@
 
     
     <parameters>
-        <parameter key="waldo_oic_p.mailing.class">Cnerta\OpenIdConnect\MailingBundle\Mailing\MailingService</parameter>
+        <parameter key="waldo_oic_p.mailing.class">Cnerta\MailingBundle\MailingBundle\Mailing\MailingService</parameter>
     </parameters>
 
     <services>
