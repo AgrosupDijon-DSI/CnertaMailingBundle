@@ -1,0 +1,27 @@
+{
+    "name": "cnerta/mailing-bundle",
+    "license": "MIT",
+    "type": "symfony-bundle",
+    "description": "Helper for send formated message",
+    "autoload": {
+        "psr-0": {
+            "Cnerta\\MailingBundle\\": ""
+        }
+    },
+    "require": {
+        "php": ">=5.3.3",
+        "symfony/symfony": "2.5.*",
+        "twig/extensions": "~1.0",
+        "symfony/swiftmailer-bundle": "~2.3",
+        "symfony/monolog-bundle": "~2.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.2"
+    },
+    "authors": [
+        {
+            "name": "Valérian Girard",
+            "email": "valerian.girard@eucagri.fr"
+        }
+    ]
+}
