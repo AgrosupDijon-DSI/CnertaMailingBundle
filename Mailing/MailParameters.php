@@ -1,6 +1,6 @@
 <?php
 
-namespace Cnerta\MailingBundle\MailingBundle\Mailing;
+namespace Cnerta\MailingBundle\Mailing;
 
 /**
  * @author Valérian Girard <valerian.girard@eduter.fr>

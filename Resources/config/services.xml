@@ -6,12 +6,12 @@
 
     
     <parameters>
-        <parameter key="waldo_oic_p.mailing.class">Cnerta\MailingBundle\MailingBundle\Mailing\MailingService</parameter>
+        <parameter key="cnerta.mailing.class">Cnerta\MailingBundle\Mailing\MailingService</parameter>
     </parameters>
 
     <services>
         
-        <service id="waldo_oic.mailing" class="%waldo_oic_p.mailing.class%">
+        <service id="cnerta.mailing" class="%cnerta.mailing.class%">
             <argument />
             <argument type="service" id="twig" />
             <argument type="service" id="mailer" />

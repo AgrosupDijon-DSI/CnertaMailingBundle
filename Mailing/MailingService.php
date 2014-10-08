@@ -1,6 +1,6 @@
 <?php
 
-namespace Cnerta\MailingBundle\MailingBundle\Mailing;
+namespace Cnerta\MailingBundle\Mailing;
 
 use Symfony\Bridge\Monolog\Logger;
 use Twig_Environment;
