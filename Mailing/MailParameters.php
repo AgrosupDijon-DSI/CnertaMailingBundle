@@ -11,15 +11,24 @@ class MailParameters
      * @var array
      */
     private $objectParameters;
+    
     /**
      * @var array
      */
     private $bodyParameters;
     
-    function __construct(array $objectParameters = array(), array $bodyParameters = array())
+    /**
+     * @var string
+     */
+    private $templateBundle;
+    
+    function __construct(array $objectParameters = array(),
+            array $bodyParameters = array(),
+            $templateBundle = "CnertaMailingBundleMailingBundle")
     {
         $this->objectParameters = $objectParameters;
         $this->bodyParameters = $bodyParameters;
+        $this->templateBundle = $templateBundle;
     }
     
     /**
@@ -78,5 +87,24 @@ class MailParameters
     public function getBodyParameters()
     {
         return $this->bodyParameters;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getTemplateBundle()
+    {
+        return $this->templateBundle;
+    }
+
+    /**
+     * 
+     * @param string $templateBundle
+     * @return \Cnerta\MailingBundle\Mailing\MailParameters
+     */
+    public function setTemplateBundle($templateBundle)
+    {
+        $this->templateBundle = $templateBundle;
+        return $this;
     }
 }
