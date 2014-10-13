@@ -19,10 +19,16 @@ class Configuration implements ConfigurationInterface
     {
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('cnerta_mailing');
-
-        // Here you should define the parameters that are allowed to
-        // configure your bundle. See the documentation linked above for
-        // more information on that topic.
+        
+        $rootNode->children()
+                ->arrayNode('from_email')
+                        ->addDefaultsIfNotSet()
+                        ->children()
+                            ->scalarNode('address')->defaultValue('webmaster@example.com')->cannotBeEmpty()->end()
+                            ->scalarNode('sender_name')->defaultValue('webmaster')->cannotBeEmpty()->end()
+                        ->end()
+                    ->end()
+                ->end();
 
         return $treeBuilder;
     }

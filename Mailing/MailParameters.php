@@ -20,7 +20,7 @@ class MailParameters
     /**
      * @var string
      */
-    private $templateBundle;
+    private $templateBundle = "CnertaMailingBundle";
     
     function __construct(array $objectParameters = array(),
             array $bodyParameters = array(),

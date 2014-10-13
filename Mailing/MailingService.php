@@ -2,12 +2,12 @@
 
 namespace Cnerta\MailingBundle\Mailing;
 
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Monolog\Logger;
 use Twig_Environment;
 use Swift_Mailer;
-use Cnerta\MailingBundle\MailingBundle\Mailing\MailParameters;
-// TODO replace Account By an interface
-use Cnerta\MailingBundle\ModelBundle\Entity\Account;
+use Cnerta\MailingBundle\Mailing\MailParameters;
+
 
 /**
  *
@@ -35,11 +35,9 @@ class MailingService
 
     public function __construct($config, Twig_Environment $templating, Swift_Mailer $mailer, Logger $logger)
     {
+                 
         $this->config = $config;
         
-        //TODO add config resolver
-        $this->config['template'] = "CnertaMailingBundleMailingBundle";
-        $this->config['from'] = array("email" => "no-reply@exemple.com", "name" => "OIC Provider");
         
         $this->templating = $templating;
         $this->mailer = $mailer;
@@ -55,13 +53,13 @@ class MailingService
      */
     public function sendEmail(array $accountList, $template, MailParameters $mailParameters = null)
     {
-        if($mailParameters == null) {
-            $mailParameters = new MailParameters();
-        }
+        $mailParameters = $mailParameters === null
+                ? new MailParameters
+                : $mailParameters;
         
         $mails = $this->makeGenericMail($template, $mailParameters);
 
-        return $this->send($mails, $accountList, array());
+        return $this->send($mails, $accountList, array(), $mailParameters);
     }
 
     /**
@@ -71,7 +69,7 @@ class MailingService
      * @param array Array Account $aEmailTo
      * @param array $aAttachement
      */
-    protected function send($data, $aEmailTo, $aAttachement = array(), $otherThing = array())
+    protected function send($data, $aEmailTo, $aAttachement = array(), MailParameters $mailParameters)
     {
 
         $mailerForSend = $this->mailer;
@@ -84,7 +82,7 @@ class MailingService
                     // Give the message a subject
                     ->setSubject($data['objet'])
                     // Set the From address with an associative array
-                    ->setFrom(array($this->config['from']['email'] => $this->config['from']['name']));
+                    ->setFrom(array($this->config['from_email']['address'] => $this->config['from_email']['sender_name']));
 
             foreach ($aAttachement as $oneAttachment) {
 
@@ -96,7 +94,7 @@ class MailingService
             $failedRecipients = array();
             $numSent = 0;
 
-            if ($user instanceof Account) {
+            if ($user instanceof UserInterface) {
                 $message->setTo($user->getEmail());
             } elseif (is_string($user)) {
                 $message->setTo($user);
@@ -104,11 +102,13 @@ class MailingService
                 throw new \RuntimeException('invalid email');
             }
             
-            $message->setBody($this->templating->render( $this->config['template'] . ':Mails:' . $data['template'] . '.html.twig', $data), "text/html");            
-            $message->addPart($this->templating->render($this->config['template'] . ':Mails:' . $data['template'] . '.txt.twig', $this->getRaw($data)), "text/plain");
+
+            $message->setBody($this->templating->render( $mailParameters->getTemplateBundle() . ':Mails:' . $data['template'] . '.html.twig', $data), "text/html");            
+            $message->addPart($this->templating->render( $mailParameters->getTemplateBundle() . ':Mails:' . $data['template'] . '.txt.twig', $this->getRaw($data)), "text/plain");
 
             $numSent += $mailerForSend->send($message, $failedRecipients);
         }
+        
         return $numSent;
     }
 
@@ -119,9 +119,8 @@ class MailingService
      * @param MailParameters $mailParameters
      */
     protected function makeGenericMail($typeEmail, MailParameters $mailParameters)
-    {
-
-        $template = $this->templating->loadTemplate($this->config['template'] . ':Mails:BlocksMail.html.twig');
+    {        
+        $template = $this->templating->loadTemplate($mailParameters->getTemplateBundle() . ':Mails:BlocksMail.html.twig');
         $aRet = array('template' => 'default');
 
         $aRet['objet'] = $template->renderBlock($typeEmail . '_object', $mailParameters->getObjectParameters());
