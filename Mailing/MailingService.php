@@ -6,6 +6,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Monolog\Logger;
 use Twig_Environment;
 use Swift_Mailer;
+use Cnerta\MailingBundle\Mailing\MailingServiceInterface;
+use Cnerta\MailingBundle\Mailing\MailParametersInterface;
 use Cnerta\MailingBundle\Mailing\MailParameters;
 
 
@@ -13,7 +15,7 @@ use Cnerta\MailingBundle\Mailing\MailParameters;
  *
  * @author Valérian Girard <valerian.girard@eduter.fr>
  */
-class MailingService
+class MailingService implements MailingServiceInterface
 {
 
     private $config;
@@ -51,10 +53,10 @@ class MailingService
      * @param array $paramList
      * @return type
      */
-    public function sendEmail(array $accountList, $template, MailParameters $mailParameters = null)
+    public function sendEmail(array $accountList, $template, MailParametersInterface $mailParameters = null)
     {
         $mailParameters = $mailParameters === null
-                ? new MailParameters
+                ? new MailParameters()
                 : $mailParameters;
         
         $mails = $this->makeGenericMail($template, $mailParameters);
@@ -69,7 +71,7 @@ class MailingService
      * @param array Array Account $aEmailTo
      * @param array $aAttachement
      */
-    protected function send($data, $aEmailTo, $aAttachement = array(), MailParameters $mailParameters)
+    protected function send($data, $aEmailTo, $aAttachement = array(), MailParametersInterface $mailParameters)
     {
 
         $mailerForSend = $this->mailer;
@@ -118,7 +120,7 @@ class MailingService
      * @param string $typeEmail prefix of the block's name to used (defined in Resources/views/Mails/BlocksMail.txt.twig)
      * @param MailParameters $mailParameters
      */
-    protected function makeGenericMail($typeEmail, MailParameters $mailParameters)
+    protected function makeGenericMail($typeEmail, MailParametersInterface $mailParameters)
     {        
         $template = $this->templating->loadTemplate($mailParameters->getTemplateBundle() . ':Mails:BlocksMail.html.twig');
         $aRet = array('template' => 'default');

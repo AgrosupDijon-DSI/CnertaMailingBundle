@@ -2,10 +2,12 @@
 
 namespace Cnerta\MailingBundle\Mailing;
 
+use Cnerta\MailingBundle\Mailing\MailParametersInterface;
+
 /**
  * @author Valérian Girard <valerian.girard@eduter.fr>
  */
-class MailParameters
+class MailParameters implements MailParametersInterface
 {
     /**
      * @var array
