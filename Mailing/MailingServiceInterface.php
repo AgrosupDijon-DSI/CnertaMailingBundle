@@ -2,6 +2,8 @@
 
 namespace Cnerta\MailingBundle\Mailing;
 
+use Cnerta\MailingBundle\Mailing\MailParametersInterface;
+
 /**
  * @author Valérian Girard <valerian.girard@eduter.fr>
  */
@@ -14,5 +16,5 @@ interface MailingServiceInterface
      * @param array $paramList
      * @return type
      */
-    public function sendEmail(array $accountList, $template, MailParameters $mailParameters = null);
+    public function sendEmail(array $accountList, $template, MailParametersInterface $mailParameters = null);
 }
