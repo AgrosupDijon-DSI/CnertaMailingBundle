@@ -13,26 +13,26 @@ class MailParameters implements MailParametersInterface
      * @var array
      */
     private $objectParameters;
-    
+
     /**
      * @var array
      */
     private $bodyParameters;
-    
+
     /**
      * @var string
      */
     private $templateBundle = "CnertaMailingBundle";
-    
+
     function __construct(array $objectParameters = array(),
             array $bodyParameters = array(),
-            $templateBundle = "CnertaMailingBundleMailingBundle")
+            $templateBundle = "CnertaMailingBundle")
     {
         $this->objectParameters = $objectParameters;
         $this->bodyParameters = $bodyParameters;
         $this->templateBundle = $templateBundle;
     }
-    
+
     /**
      * @param string $key
      * @param mixin $value
@@ -43,7 +43,7 @@ class MailParameters implements MailParametersInterface
         $this->objectParameters[$key] = $value;
         return $this;
     }
-    
+
     /**
      * @param array $objectParameters
      * @return Cnerta\MailingBundle\MailingBundle\Mailing\MailParameters
@@ -53,7 +53,7 @@ class MailParameters implements MailParametersInterface
         $this->objectParameters = $objectParameters;
         return $this;
     }
-    
+
     /**
      * @return array
      */
@@ -61,7 +61,7 @@ class MailParameters implements MailParametersInterface
     {
         return $this->objectParameters;
     }
-    
+
     /**
      * @param string $key
      * @param mixin $value
@@ -72,7 +72,7 @@ class MailParameters implements MailParametersInterface
         $this->bodyParameters[$key] = $value;
         return $this;
     }
-    
+
     /**
      * @param array $bodyParameters
      * @return Cnerta\MailingBundle\MailingBundle\Mailing\MailParameters
@@ -82,7 +82,7 @@ class MailParameters implements MailParametersInterface
         $this->bodyParameters = $bodyParameters;
         return $this;
     }
-    
+
     /**
      * @return array
      */
@@ -90,7 +90,7 @@ class MailParameters implements MailParametersInterface
     {
         return $this->bodyParameters;
     }
-    
+
     /**
      * @return string
      */
@@ -100,7 +100,7 @@ class MailParameters implements MailParametersInterface
     }
 
     /**
-     * 
+     *
      * @param string $templateBundle
      * @return \Cnerta\MailingBundle\Mailing\MailParameters
      */

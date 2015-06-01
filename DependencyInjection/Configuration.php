@@ -19,8 +19,9 @@ class Configuration implements ConfigurationInterface
     {
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('cnerta_mailing');
-        
+
         $rootNode->children()
+                ->scalarNode('default_bundle')->defaultNull()->end()
                 ->arrayNode('from_email')
                         ->addDefaultsIfNotSet()
                         ->children()

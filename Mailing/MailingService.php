@@ -37,10 +37,10 @@ class MailingService implements MailingServiceInterface
 
     public function __construct($config, Twig_Environment $templating, Swift_Mailer $mailer, Logger $logger)
     {
-                 
+
         $this->config = $config;
-        
-        
+
+
         $this->templating = $templating;
         $this->mailer = $mailer;
         $this->logger = $logger;
@@ -58,7 +58,7 @@ class MailingService implements MailingServiceInterface
         $mailParameters = $mailParameters === null
                 ? new MailParameters()
                 : $mailParameters;
-        
+
         $mails = $this->makeGenericMail($template, $mailParameters);
 
         return $this->send($mails, $accountList, array(), $mailParameters);
@@ -67,7 +67,7 @@ class MailingService implements MailingServiceInterface
     /**
      * Méthode d'envoie d'email
      *
-     * @param array $data 
+     * @param array $data
      * @param array Array Account $aEmailTo
      * @param array $aAttachement
      */
@@ -103,14 +103,14 @@ class MailingService implements MailingServiceInterface
             } else {
                 throw new \RuntimeException('invalid email');
             }
-            
 
-            $message->setBody($this->templating->render( $mailParameters->getTemplateBundle() . ':Mails:' . $data['template'] . '.html.twig', $data), "text/html");            
+
+            $message->setBody($this->templating->render( $mailParameters->getTemplateBundle() . ':Mails:' . $data['template'] . '.html.twig', $data), "text/html");
             $message->addPart($this->templating->render( $mailParameters->getTemplateBundle() . ':Mails:' . $data['template'] . '.txt.twig', $this->getRaw($data)), "text/plain");
 
             $numSent += $mailerForSend->send($message, $failedRecipients);
         }
-        
+
         return $numSent;
     }
 
@@ -121,16 +121,23 @@ class MailingService implements MailingServiceInterface
      * @param MailParameters $mailParameters
      */
     protected function makeGenericMail($typeEmail, MailParametersInterface $mailParameters)
-    {        
-        $template = $this->templating->loadTemplate($mailParameters->getTemplateBundle() . ':Mails:BlocksMail.html.twig');
-        $aRet = array('template' => 'default');
+    {
+        $baseTempate = $this->config['default_bundle'] !== null
+                ? $this->config['default_bundle']
+                : $mailParameters->getTemplateBundle();
+
+        $template = $this->templating->loadTemplate($baseTempate . ':Mails:BlocksMail.html.twig');
+
+        $aRet = array(
+            'template' => 'default'
+            );
 
         $aRet['objet'] = $template->renderBlock($typeEmail . '_object', $mailParameters->getObjectParameters());
         $aRet['body'] = $template->renderBlock($typeEmail . '_body', $mailParameters->getBodyParameters());
 
         return $aRet;
     }
-    
+
     protected function getRaw($data)
     {
         $data['body'] = strip_tags($data['body']);
