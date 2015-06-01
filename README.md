@@ -4,7 +4,7 @@ CnertaMailingBundle
 Installation
 ------------
 
-### Step 1
+### Composer
 
 Add to composer json:
 
@@ -29,8 +29,6 @@ Run:
 $ composer install cnerta/mailing-bundle
 ```
 
-### Step 2
-
 Register the bundle in your `AppKernel` class.
 
 ``` php
@@ -50,7 +48,23 @@ Register the bundle in your `AppKernel` class.
     // ...
 ```
 
-### Step 3 : Create mail templates
+### Configure the bundle
+
+In `config.yml`
+
+```yaml
+
+cnerta_mailing:
+    default_bundle: "FooBundle" # The name of the bundle where the mail template are stored
+    from_email:
+        address: exemple@exemple.com
+        sender_name: "My name is"
+```
+
+How To Use
+----------
+
+### Create mail templates
 
  - Create a `Mails` folder in your `src/MyBundle/Resources`
  - Create a `BlocksMail.html.twig` in this new folder
@@ -96,7 +110,7 @@ Hello dear user</strong
 ```
 
 
-### Step 4 : Send mail !
+### Send mail !
 
 Service name : `cnerta.mailing`
 
