@@ -105,8 +105,8 @@ class MailingService implements MailingServiceInterface
             }
 
 
-            $message->setBody($this->templating->render( $mailParameters->getTemplateBundle() . ':Mails:' . $data['template'] . '.html.twig', $data), "text/html");
-            $message->addPart($this->templating->render( $mailParameters->getTemplateBundle() . ':Mails:' . $data['template'] . '.txt.twig', $this->getRaw($data)), "text/plain");
+            $message->setBody($this->templating->render( $this->getTemplateDirectory($mailParameters) . ':Mails:' . $data['template'] . '.html.twig', $data), "text/html");
+            $message->addPart($this->templating->render( $this->getTemplateDirectory($mailParameters) . ':Mails:' . $data['template'] . '.txt.twig', $this->getRaw($data)), "text/plain");
 
             $numSent += $mailerForSend->send($message, $failedRecipients);
         }
@@ -122,11 +122,7 @@ class MailingService implements MailingServiceInterface
      */
     protected function makeGenericMail($typeEmail, MailParametersInterface $mailParameters)
     {
-        $baseTempate = $this->config['default_bundle'] !== null
-                ? $this->config['default_bundle']
-                : $mailParameters->getTemplateBundle();
-
-        $template = $this->templating->loadTemplate($baseTempate . ':Mails:BlocksMail.html.twig');
+        $template = $this->templating->loadTemplate($this->getTemplateDirectory($mailParameters) . ':Mails:BlocksMail.html.twig');
 
         $aRet = array(
             'template' => 'default'
@@ -144,4 +140,10 @@ class MailingService implements MailingServiceInterface
         return $data;
     }
 
+    private function getTemplateDirectory(MailParametersInterface $mailParameters)
+    {
+        return $this->config['default_bundle'] !== null
+                ? $this->config['default_bundle']
+                : $mailParameters->getTemplateBundle();
+    }
 }
