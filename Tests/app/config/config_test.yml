@@ -1,0 +1,34 @@
+framework:
+    secret:          secret
+    test: ~
+    router:          { resource: "%kernel.root_dir%/config/routing.yml" }
+    form:            true
+    csrf_protection: true
+    validation:      { enable_annotations: true }
+    templating:      { engines: ['twig'] }
+    session:
+        storage_id: session.storage.filesystem
+
+monolog:
+    handlers:
+        main:
+            type:   stream
+            path:   "%kernel.logs_dir%/%kernel.environment%.log"
+            level:  debug
+
+
+# Swiftmailer Configuration
+swiftmailer:
+    transport: "smtp"
+    host:      "172.0.0.1"
+    username:  null
+    password:  null
+    spool:
+        path: "%kernel.cache_dir%/deadspool"
+    disable_delivery: true
+
+cnerta_mailing:
+    default_bundle: ""
+    from_email:
+        address: exemple@exemple.com
+        sender_name: "My name is"

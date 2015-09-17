@@ -24,9 +24,12 @@ class CnertaMailingExtension extends Extension
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
-        
-        $container->getDefinition('cnerta.mailing')
-                    ->replaceArgument(0, $config);
-        
+
+        $container->getDefinition('cnerta.mailing')->replaceArgument(0, $config);
+    }
+
+    public function getAlias()
+    {
+        return "cnerta_mailing";
     }
 }

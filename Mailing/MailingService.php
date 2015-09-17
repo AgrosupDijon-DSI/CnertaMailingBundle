@@ -2,14 +2,12 @@
 
 namespace Cnerta\MailingBundle\Mailing;
 
-use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Bridge\Monolog\Logger;
+use Psr\Log\LoggerInterface;
 use Twig_Environment;
 use Swift_Mailer;
 use Cnerta\MailingBundle\Mailing\MailingServiceInterface;
 use Cnerta\MailingBundle\Mailing\MailParametersInterface;
 use Cnerta\MailingBundle\Mailing\MailParameters;
-
 
 /**
  *
@@ -18,6 +16,9 @@ use Cnerta\MailingBundle\Mailing\MailParameters;
 class MailingService implements MailingServiceInterface
 {
 
+    /**
+     * @var array
+     */
     private $config;
 
     /**
@@ -35,29 +36,31 @@ class MailingService implements MailingServiceInterface
      */
     private $logger;
 
-    public function __construct($config, Twig_Environment $templating, Swift_Mailer $mailer, Logger $logger)
+    /**
+     *
+     * @param array $config
+     * @param Twig_Environment $templating
+     * @param Swift_Mailer $mailer
+     * @param LoggerInterface $logger
+     */
+    public function __construct($config, Twig_Environment $templating, Swift_Mailer $mailer, LoggerInterface $logger)
     {
-
         $this->config = $config;
-
-
         $this->templating = $templating;
         $this->mailer = $mailer;
         $this->logger = $logger;
     }
 
     /**
-     * Envoie de mail simple
+     * Simple email sender
      *
-     * @param array/array <Account> $accountList
+     * @param array|array<UserInterface> $accountList
      * @param array $paramList
      * @return type
      */
     public function sendEmail(array $accountList, $template, MailParametersInterface $mailParameters = null)
     {
-        $mailParameters = $mailParameters === null
-                ? new MailParameters()
-                : $mailParameters;
+        $mailParameters = $mailParameters === null ? new MailParameters() : $mailParameters;
 
         $mails = $this->makeGenericMail($template, $mailParameters);
 
@@ -68,12 +71,11 @@ class MailingService implements MailingServiceInterface
      * Méthode d'envoie d'email
      *
      * @param array $data
-     * @param array Array Account $aEmailTo
+     * @param array|array<UserInterface> $aEmailTo
      * @param array $aAttachement
      */
     protected function send($data, $aEmailTo, $aAttachement = array(), MailParametersInterface $mailParameters)
     {
-
         $mailerForSend = $this->mailer;
 
         foreach ($aEmailTo as $user) {
@@ -88,7 +90,8 @@ class MailingService implements MailingServiceInterface
 
             foreach ($aAttachement as $oneAttachment) {
 
-                $attachment = \Swift_Attachment::newInstance($oneAttachment['content'], $oneAttachment['name'], $oneAttachment['type']);
+                $attachment = \Swift_Attachment::newInstance($oneAttachment['content'], $oneAttachment['name'],
+                                $oneAttachment['type']);
 
                 $message->attach($attachment);
             }
@@ -96,19 +99,33 @@ class MailingService implements MailingServiceInterface
             $failedRecipients = array();
             $numSent = 0;
 
-            if ($user instanceof UserInterface) {
+            if (is_object($user) && method_exists($user,'getEmail')) {
                 $message->setTo($user->getEmail());
             } elseif (is_string($user)) {
                 $message->setTo($user);
             } else {
-                throw new \RuntimeException('invalid email');
+                throw new \RuntimeException('Invalid email');
             }
 
 
-            $message->setBody($this->templating->render( $this->getTemplateDirectory($mailParameters) . ':Mails:' . $data['template'] . '.html.twig', $data), "text/html");
-            $message->addPart($this->templating->render( $this->getTemplateDirectory($mailParameters) . ':Mails:' . $data['template'] . '.txt.twig', $this->getRaw($data)), "text/plain");
+            $message->setBody($this->templating->render(
+                            $this->getTemplateDirectory($mailParameters) . ':Mails:' . $data['template'] . '.html.twig', $data),
+                    "text/html"
+            );
+            $message->addPart(
+                    $this->templating->render($this->getTemplateDirectory($mailParameters) . ':Mails:' . $data['template'] . '.txt.twig',
+                            $this->getRaw($data)), "text/plain"
+            );
 
             $numSent += $mailerForSend->send($message, $failedRecipients);
+
+
+            if ($this->logger) {
+                $this->logger->info(
+                        sprintf("Email: '%s' sended to: '%s'", $data['objet'], current(array_keys($message->getTo()))),
+                        array('CnertaMailingBundle', 'email-sended')
+                );
+            }
         }
 
         return $numSent;
@@ -126,7 +143,7 @@ class MailingService implements MailingServiceInterface
 
         $aRet = array(
             'template' => 'default'
-            );
+        );
 
         $aRet['objet'] = $template->renderBlock($typeEmail . '_object', $mailParameters->getObjectParameters());
         $aRet['body'] = $template->renderBlock($typeEmail . '_body', $mailParameters->getBodyParameters());
@@ -142,8 +159,6 @@ class MailingService implements MailingServiceInterface
 
     private function getTemplateDirectory(MailParametersInterface $mailParameters)
     {
-        return $this->config['default_bundle'] !== null
-                ? $this->config['default_bundle']
-                : $mailParameters->getTemplateBundle();
+        return $this->config['default_bundle'] !== null ? $this->config['default_bundle'] : $mailParameters->getTemplateBundle();
     }
 }

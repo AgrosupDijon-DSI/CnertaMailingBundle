@@ -12,15 +12,7 @@ Add to composer json:
     "require": {
         //..
         "cnerta/mailing-bundle": "dev-master"
-    },
-    //..
-    "repositories": [
-        //...
-            {
-              "type": "git",
-               "url": "git@git.eduter.local:web_modules_symfony/mailing-bundle.git"
-            }
-    ]
+    }
 ```
 
 Run:
@@ -53,7 +45,6 @@ Register the bundle in your `AppKernel` class.
 In `config.yml`
 
 ```yaml
-
 cnerta_mailing:
     default_bundle: "FooBundle" # The name of the bundle where the mail template are stored
     from_email:
@@ -66,7 +57,7 @@ How To Use
 
 ### Create mail templates
 
- - Create a `Mails` folder in your `src/MyBundle/Resources`
+ - Create a `Mails` folder in your `src/AppBundle/Resources`
  - Create a `BlocksMail.html.twig` in this new folder
  - Create a `default.html.twig`
  - Create a `default.txt.twig`
