@@ -2,7 +2,7 @@
     "name": "cnerta/mailing-bundle",
     "license": "MIT",
     "type": "symfony-bundle",
-    "description": "Helper for send formated email",
+    "description": "CnertaMailinBundle is a Symfony2 Bundle who provide an easy way to send email build with Twig template",
     "homepage": "https://github.com/waldo2188/",
     "autoload": {
         "psr-0": {
