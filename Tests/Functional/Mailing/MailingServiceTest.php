@@ -20,8 +20,6 @@ class MailingServiceTest extends WebTestCase
 
         $this->unlinkAll($spoolFolder);
 
-
-
         $parameters = new MailParameters();
 
         $parameters->addBodyParameters("name", "Amelia Schmitt");
@@ -53,6 +51,10 @@ class MailingServiceTest extends WebTestCase
 
     private function unlinkAll($dir)
     {
+        if(!is_dir($dir)){
+            return;
+        }
+
         $iterator = new \RecursiveIteratorIterator(
                 new \RecursiveDirectoryIterator(
                 $dir, \FilesystemIterator::SKIP_DOTS
