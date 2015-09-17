@@ -1,6 +1,14 @@
 CnertaMailingBundle
 ===================
 
+CnertaMailinBundle is a Symfony2 Bundle who provide an easy way to send email build with Twig template.
+
+Create your email message with Twig and use the CnertaMailinBundle's service for sending it.
+
+Easy, fast and builded on the shoulders of giants like SwiftMail.
+
+Because quality matters : [![SensioLabsInsight](https://insight.sensiolabs.com/projects/5989cc10-2893-4dca-9d02-f1589530d913/small.png)](https://insight.sensiolabs.com/projects/5989cc10-2893-4dca-9d02-f1589530d913)
+
 Installation
 ------------
 
