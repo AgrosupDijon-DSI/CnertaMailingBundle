@@ -8,7 +8,7 @@ Create your email message with Twig and use the CnertaMailinBundle's service for
 Easy, fast and builded on the shoulders of giants like SwiftMail.
 
 Because quality matters : [![SensioLabsInsight](https://insight.sensiolabs.com/projects/5989cc10-2893-4dca-9d02-f1589530d913/small.png)](https://insight.sensiolabs.com/projects/5989cc10-2893-4dca-9d02-f1589530d913)
-https://travis-ci.org/AgrosupDijon-Eduter/CnertaMailingBundle.svg?branch=master
+[![Build Status](https://travis-ci.org/AgrosupDijon-Eduter/CnertaMailingBundle.svg?branch=master)](https://travis-ci.org/AgrosupDijon-Eduter/CnertaMailingBundle)
 
 Installation
 ------------
