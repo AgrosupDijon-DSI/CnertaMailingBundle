@@ -120,7 +120,7 @@ class MailingService implements MailingServiceInterface
             $numSent += $mailerForSend->send($message, $failedRecipients);
 
 
-            if ($this->logger) {
+            if ($this->logger && $this->config['active_log'] === true) {
                 $this->logger->info(
                         sprintf("Email: '%s' sended to: '%s'", $data['objet'], current(array_keys($message->getTo()))),
                         array('CnertaMailingBundle', 'email-sended')

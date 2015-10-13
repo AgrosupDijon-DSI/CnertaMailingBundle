@@ -134,6 +134,7 @@ class MailingTest extends \PHPUnit_Framework_TestCase
         if($config === null) {
             $config = array(
                 "default_bundle" => null,
+                "active_log" => true,
                 "from_email" => array(
                     "address" => "exemple@exemple.com",
                     "sender_name" => "Webmaster"

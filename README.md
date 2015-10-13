@@ -55,7 +55,8 @@ In `config.yml`
 
 ```yaml
 cnerta_mailing:
-    default_bundle: "FooBundle" # The name of the bundle where the mail template are stored
+    default_bundle: "FooBundle" # The name of the bundle where the email template are stored
+    active_log: false # Defined if you want to log each sending email
     from_email:
         address: exemple@exemple.com
         sender_name: "My name is"
@@ -135,4 +136,23 @@ public function fooAction() {
             "template_email", // Name of the block define in `BlocksMail.html.twig`
             $mailParameters);
 }
+```
+
+### Log all sending email in a specific channel
+
+Because sometime you need to know what thé system send as email, this bundle provide an easy way to log all message.
+
+This bundle use the `mailingbundle` channel to write log.
+
+So, if you want to log this specific messages in a separate log file, use the config below.
+
+```yml
+monolog:
+    handlers:
+        myMailingChannel:
+            # log all messages (since debug is the lowest level)
+            level:    debug
+            type:     stream
+            path:     "%kernel.logs_dir%/mailing.log"
+            channels: [mailingbundle]
 ```

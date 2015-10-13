@@ -11,6 +11,7 @@
             <argument type="service" id="twig" />
             <argument type="service" id="mailer" />
             <argument type="service" id="logger" on-invalid="null" />
+            <tag name="monolog.logger" channel="mailingbundle" />
         </service>
 
     </services>

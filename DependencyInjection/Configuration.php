@@ -22,6 +22,7 @@ class Configuration implements ConfigurationInterface
 
         $rootNode->children()
                 ->scalarNode('default_bundle')->defaultNull()->end()
+                ->scalarNode('active_log')->defaultFalse()->end()
                 ->arrayNode('from_email')
                         ->addDefaultsIfNotSet()
                         ->children()
